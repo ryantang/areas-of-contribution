@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      // Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);
+
+      function handleFormSubmit(formObject) {
+        updatePage('Updating form...(this may take up to a MINUTE to complete)...');
+        google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).processForm(formObject);
+      }
+      function onFailure(error) {
+        updatePage("<b>Error: " + error.message + "</b>");
+      }
+      function onSuccess(receivedHTML) {
+        updatePage(receivedHTML);
+      }
+      function updatePage(receivedHTML) {
+        var div = document.getElementById('output');
+        div.innerHTML = receivedHTML;
+      }
+    </script>
+  </head>
+  <body>
+    <p>This tool will change an existing Google Form so that it matches the latest <a href="https://github.com/pivotal-cf/areas-of-contribution">Areas of Contribution</a>.
+      <p><b>WARNING</b>: don't use this on a real form for a report, <b>it will break things</b>.  Make a copy of a feedback form and play with that instead.
+    <form onsubmit="handleFormSubmit(this)">
+      Enter the URL of the Google Form you'd like to update:
+      <input type="text" name="feedbackFormUrl" size="100" value="https://docs.google.com/forms/d/1C55Ph4M3hysFWs-Pmw9GuEGS8HWz3LT67dPjFX2n8qk/edit" />
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="output"></div>
+ </body>
+</html>
