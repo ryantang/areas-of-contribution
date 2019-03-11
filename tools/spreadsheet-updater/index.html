@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      // Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);
+
+      function handleFormSubmit(formObject) {
+        updatePage('Updating spreadsheet...(this may take up to a MINUTE to complete)...');
+        google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).migrateSpreadsheet(formObject);
+      }
+      function onFailure(error) {
+        updatePage("<b>Error: " + error.message + "</b>");
+      }
+      function onSuccess(receivedHTML) {
+        updatePage(receivedHTML);
+      }
+      function updatePage(receivedHTML) {
+        var div = document.getElementById('output');
+        div.innerHTML = receivedHTML;
+      }
+    </script>
+  </head>
+  <body>
+    <p>This tool will change an existing Google Spreadsheet and migrate existing data over.</p>
+      <p><b>WARNING</b>: don't use this on a real spreadsheet for a report, <b>it will break things</b>.  Make a copy of a feedback spreadsheet and play with that instead.
+    <form onsubmit="handleFormSubmit(this)">
+      Enter the URL of the Google Spreadsheet you would like to sync:
+      <input type="text" name="feedbackSpreadsheetURL" size="100" value="https://docs.google.com/spreadsheets/d/1mh8xzbGM0dssn3yr3AeqsCP_uH8RFik8bcZB2AMlpXw/edit" />
+      <textarea name="migrationJSON" value="{}" ></textarea>
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="output"></div>
+ </body>
+</html>
