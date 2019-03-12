@@ -10,14 +10,15 @@ You understand the importance of maintaining feedback loops on an engineering te
 
 <table>
 <tbody>
+
 <thead>
 <td><strong>P1</strong></td>
 <td><strong>P2</strong></td>
 <td><strong>P3</strong></td>
 <td><strong>P4</strong></td>
 <td><strong>P5</strong></td>
-
 </thead>
+
 <tr>
 
 <!-- P1 -->
@@ -73,5 +74,7 @@ You understand the importance of maintaining feedback loops on an engineering te
 <!-- P5 -->
 <td valign="top"><ul>
   <li>Innovates on engineering process and evangelizes that change across the org. Follows through by helping relevant and interested teams adopt it successfully</li>
-</ul></td>
+</ul>
+</td>
+</tr>
 </tbody></table>
